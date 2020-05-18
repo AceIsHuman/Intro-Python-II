@@ -1,3 +1,5 @@
+from player import Player
+from item import Item
 from room import Room
 
 # Declare all the rooms
@@ -37,8 +39,17 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 
+items = {
+    'key-1': Item("key", "This key could unlock a door!"),
+    'potion': Item("potion", "Drinking this could have an unknown effect."),
+    'chicken': Item("chicken", "This savory chicken restores 3 hunger.")
+}
+
+room['foyer'].items = [items['key-1']]
+room['narrow'].items = [items['potion']]
+room['overlook'].items = [items['chicken']]
+
 # Make a new player object that is currently in the 'outside' room.
-from player import Player
 bash = Player("Bash", room['outside'])
 
 # Write a loop that:
@@ -52,7 +63,7 @@ bash = Player("Bash", room['outside'])
 #
 # If the user enters "q", quit the game.
 
-selection =  ""
+selection = ""
 
 directions = """
 The path splits ahead. Choose a direction:
@@ -61,8 +72,10 @@ The path splits ahead. Choose a direction:
 
 options = {'n': 'n_to', 's': 's_to', 'e': 'e_to', 'w': 'w_to'}
 
+
 def move_player(player, room):
     player.move_to(room)
+
 
 while selection != "q":
     current_room = bash.current_room
