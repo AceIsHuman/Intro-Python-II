@@ -70,7 +70,8 @@ The path splits ahead. Choose a direction:
     n. North    e. East    s. South    w. West
 """
 
-options = {'n': 'n_to', 's': 's_to', 'e': 'e_to', 'w': 'w_to'}
+options = {'n': 'n_to', 's': 's_to', 'e': 'e_to',
+           'w': 'w_to', 'take': 'take', 'get': 'take'}
 
 
 def move_player(player, room):
@@ -80,14 +81,19 @@ def move_player(player, room):
 while selection != "q":
     current_room = bash.current_room
     print(current_room)
-    selection = input(directions)
+    selection = input(directions).split()
     try:
-        selection = options[selection]
-        try:
-            bash.move_to(getattr(current_room, selection))
-        except AttributeError:
-            print('\nThere is no path in that direction\n')
+        selection = options[selection[0]]
+        if selection in ("take"):
+            ## Add function to pick up items
+        else:
+            try:
+                bash.move_to(getattr(current_room, selection))
+            except AttributeError:
+                print('\nThere is no path in that direction\n')
     except KeyError:
         print('\nThat is not a valid selection\n')
+    except IndexError:
+        print('\nPlease make a selection.\n')
 
 print("Thanks for playing!")
