@@ -71,7 +71,8 @@ The path splits ahead. Choose a direction:
 """
 
 options = {'n': 'n_to', 's': 's_to', 'e': 'e_to',
-           'w': 'w_to', 'take': 'take', 'get': 'take', 'drop': 'drop'}
+           'w': 'w_to', 'take': 'take', 'get': 'take',
+           'drop': 'drop', 'i': 'i', 'inventory': 'i'}
 
 
 def take(player, room, item_name):
@@ -112,6 +113,10 @@ while response != "q":
         selection = options[response[0]]
         if selection in ("take", "drop"):
             action[selection](bash, current_room, response[1])
+        elif selection is 'i':
+            print('Inventory:')
+            for item in bash.inventory:
+                print(f'> {item}')
         else:
             try:
                 bash.move_to(getattr(current_room, selection))
