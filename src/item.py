@@ -5,3 +5,6 @@ class Item:
 
   def __str__(self):
     return self.name
+
+  def on_take(self):
+    print(f'You have picked up {self.name}')
