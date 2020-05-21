@@ -63,7 +63,7 @@ bash = Player("Bash", room['outside'])
 #
 # If the user enters "q", quit the game.
 
-selection = ""
+response = ""
 
 directions = """
 The path splits ahead. Choose a direction:
@@ -74,18 +74,33 @@ options = {'n': 'n_to', 's': 's_to', 'e': 'e_to',
            'w': 'w_to', 'take': 'take', 'get': 'take'}
 
 
+def take(player, room, item_name):
+    if item_name in [i.name for i in room.items]:
+        item = [i for i in room.items if i.name == item_name][0]
+        print(item)
+        player.inventory.append(item)
+        room.items.remove(item)
+    else:
+        print('That item is not here.')
+
+
+action = {
+    'take': take
+}
+
+
 def move_player(player, room):
     player.move_to(room)
 
 
-while selection != "q":
+while response != "q":
     current_room = bash.current_room
     print(current_room)
-    selection = input(directions).split()
+    response = input(directions).split()
     try:
-        selection = options[selection[0]]
+        selection = options[response[0]]
         if selection in ("take"):
-            ## Add function to pick up items
+            action[selection](bash, current_room, response[1])
         else:
             try:
                 bash.move_to(getattr(current_room, selection))
