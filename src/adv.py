@@ -71,7 +71,7 @@ The path splits ahead. Choose a direction:
 """
 
 options = {'n': 'n_to', 's': 's_to', 'e': 'e_to',
-           'w': 'w_to', 'take': 'take', 'get': 'take'}
+           'w': 'w_to', 'take': 'take', 'get': 'take', 'drop': 'drop'}
 
 
 def take(player, room, item_name):
@@ -84,8 +84,19 @@ def take(player, room, item_name):
         print('That item is not here.')
 
 
+def drop(player, room, item_name):
+    if item_name in [i.name for i in player.inventory]:
+        item = [i for i in player.inventory if i.name == item_name][0]
+        room.items.append(item)
+        player.inventory.remove(item)
+        item.on_drop()
+    else:
+        print('You do not have that item.')
+
+
 action = {
-    'take': take
+    'take': take,
+    'drop': drop
 }
 
 
@@ -99,7 +110,7 @@ while response != "q":
     response = input(directions).split()
     try:
         selection = options[response[0]]
-        if selection in ("take"):
+        if selection in ("take", "drop"):
             action[selection](bash, current_room, response[1])
         else:
             try:
