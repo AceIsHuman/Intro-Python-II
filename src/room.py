@@ -14,5 +14,5 @@ class Room:
     if len(self.items):
       output += '\n\nThere is something on the ground:\n'
       for item in self.items:
-        output += f'    - {item}'
+        output += f'    {item}'
     return output
