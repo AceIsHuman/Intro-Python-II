@@ -77,9 +77,9 @@ options = {'n': 'n_to', 's': 's_to', 'e': 'e_to',
 def take(player, room, item_name):
     if item_name in [i.name for i in room.items]:
         item = [i for i in room.items if i.name == item_name][0]
-        print(item)
         player.inventory.append(item)
         room.items.remove(item)
+        item.on_take()
     else:
         print('That item is not here.')
 
